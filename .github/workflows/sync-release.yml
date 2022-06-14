@@ -43,7 +43,7 @@ jobs:
             const found = tags.data.find(tag => tag.name === 'protoc-gen-nanopb/v${{steps.nanopb-version.outputs.result}}');
 
             // tags already exists => stop
-            if (found !== undefined) {
+            if (found) {
               return false;
             }
 
