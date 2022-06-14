@@ -34,7 +34,7 @@ jobs:
               repo: '${{ inputs.repo_name }}'
             });
 
-            const version = tags.data[0].name.replace('nanopb-', '');
+            const version = tags.data[0].name.replace('nanopb-', '').replace('v', '');
 
             console.log(version);
 
