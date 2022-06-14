@@ -34,7 +34,7 @@ jobs:
       PAT: ${{ secrets.PAT }}
 
   protoc-gen-validate:
-    name: ts
+    name: validate
     uses: ./.github/workflows/sync-release.yml
     with:
       plugin_name: protoc-gen-validate
