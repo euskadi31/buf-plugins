@@ -4,7 +4,7 @@ name: CI - protoc-gen-nanopb
 on:
   push:
     tags:
-      - protoc-gen-nanopb/*
+      - 'protoc-gen-nanopb/*'
 
 jobs:
   docker:
