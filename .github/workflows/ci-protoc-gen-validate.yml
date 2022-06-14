@@ -1,0 +1,17 @@
+
+name: CI - protoc-gen-validate
+
+on:
+  push:
+    tags:
+      - protoc-gen-validate/*
+
+jobs:
+  docker:
+    name: Build docker
+    uses: ./.github/workflows/docker-release.yml
+    with:
+      plugin_name: protoc-gen-validate
+    secrets:
+      BUF_BUILD_API_USER: ${{ secrets.BUF_BUILD_API_USER }}
+      BUF_BUILD_API_KEY: ${{ secrets.BUF_BUILD_API_KEY }}

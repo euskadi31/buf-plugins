@@ -3,7 +3,7 @@
 FROM node:current-alpine
 
 # Runtime dependencies
-LABEL "build.buf.plugins.runtime_library_versions.0.name"="github.com/euskadi31/docker-protoc-gen-ts"
+LABEL "build.buf.plugins.runtime_library_versions.0.name"="github.com/euskadi31/buf-plugins/tree/main/protoc-gen-ts"
 LABEL "build.buf.plugins.runtime_library_versions.0.version"="v{{.Version}}"
 
 WORKDIR /proto/

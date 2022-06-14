@@ -1,0 +1,17 @@
+
+name: CI - protoc-gen-nanopb
+
+on:
+  push:
+    tags:
+      - 'protoc-gen-nanopb/*'
+
+jobs:
+   docker:
+    name: Build docker
+    uses: ./.github/workflows/docker-release.yml
+    with:
+      plugin_name: protoc-gen-nanopb
+    secrets:
+      BUF_BUILD_API_USER: ${{ secrets.BUF_BUILD_API_USER }}
+      BUF_BUILD_API_KEY: ${{ secrets.BUF_BUILD_API_KEY }}

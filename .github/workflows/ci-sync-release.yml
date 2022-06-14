@@ -13,7 +13,7 @@ defaults:
     shell: bash
 
 jobs:
-  nanopb:
+  protoc-gen-nanopb:
     name: nanopb
     uses: ./.github/workflows/sync-release.yml
     with:
@@ -23,12 +23,22 @@ jobs:
     secrets:
       PAT: ${{ secrets.PAT }}
   
-  ts:
+  protoc-gen-ts:
     name: ts
     uses: ./.github/workflows/sync-release.yml
     with:
       plugin_name: protoc-gen-ts
       owner_name: improbable-eng
       repo_name: ts-protoc-gen
+    secrets:
+      PAT: ${{ secrets.PAT }}
+
+  protoc-gen-validate:
+    name: ts
+    uses: ./.github/workflows/sync-release.yml
+    with:
+      plugin_name: protoc-gen-validate
+      owner_name: envoyproxy
+      repo_name: protoc-gen-validate
     secrets:
       PAT: ${{ secrets.PAT }}

@@ -1,0 +1,17 @@
+
+name: CI - protoc-gen-ts
+
+on:
+  push:
+    tags:
+      - protoc-gen-ts/*
+
+jobs:
+  docker:
+    name: Build docker
+    uses: ./.github/workflows/docker-release.yml
+    with:
+      plugin_name: protoc-gen-ts
+    secrets:
+      BUF_BUILD_API_USER: ${{ secrets.BUF_BUILD_API_USER }}
+      BUF_BUILD_API_KEY: ${{ secrets.BUF_BUILD_API_KEY }}
