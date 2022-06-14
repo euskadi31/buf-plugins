@@ -24,6 +24,7 @@ jobs:
           registry: plugins.buf.build
           username: ${{ secrets.BUF_BUILD_API_USER }}
           password: ${{ secrets.BUF_BUILD_API_KEY }}
+     
       - name: Build and push
         uses: docker/build-push-action@v3
         with:

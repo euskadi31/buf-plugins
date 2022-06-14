@@ -1,0 +1,34 @@
+name: Sync Release
+
+on:
+  push:
+    branches:
+      - 'main'
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '30 3,6 * * *'
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  nanopb:
+    name: nanopb
+    uses: ./.github/workflows/sync-release.yml
+    with:
+      plugin_name: protoc-gen-nanopb
+      owner_name: nanopb
+      repo_name: nanopb
+    secrets:
+      PAT: ${{ secrets.PAT }}
+  
+  ts:
+    name: ts
+    uses: ./.github/workflows/sync-release.yml
+    with:
+      plugin_name: protoc-gen-ts
+      owner_name: improbable-eng
+      repo_name: ts-protoc-gen
+    secrets:
+      PAT: ${{ secrets.PAT }}

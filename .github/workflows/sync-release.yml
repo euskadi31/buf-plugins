@@ -1,25 +1,37 @@
 name: Sync Release
 
 on:
-  push:
-    branches:
-      - 'main'
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron:  '30 3,6 * * *'
+  workflow_call:
+    secrets:
+      PAT:
+        required: true
+    inputs:
+      plugin_name:
+        required: true
+        type: string
+      owner_name:
+        required: true
+        type: string
+      repo_name:
+        required: true
+        type: string
+    
+defaults:
+  run:
+    shell: bash
 
 jobs:
-  nanopb:
+  fetch:
     runs-on: ubuntu-latest
     steps:
       - name: Check if a new release
         uses: actions/github-script@v6
-        id: nanopb-version
+        id: version
         with:
           script: |
             const tags = await github.rest.repos.listTags({
-              owner: 'nanopb',
-              repo: 'nanopb'
+              owner: '${{ inputs.owner_name }}',
+              repo: '${{ inputs.repo_name }}'
             });
 
             const version = tags.data[0].name.replace('nanopb-', '');
@@ -31,7 +43,7 @@ jobs:
 
       - name: Check if already released
         uses: actions/github-script@v6
-        id: nanopb-check
+        id: check
         with:
           script: |
             const tags = await github.rest.repos.listTags({
@@ -40,7 +52,7 @@ jobs:
               per_page: 100
             });
 
-            const found = tags.data.find(tag => tag.name === 'protoc-gen-nanopb/v${{steps.nanopb-version.outputs.result}}');
+            const found = tags.data.find(tag => tag.name === '${{ inputs.plugin_name }}/v${{ steps.version.outputs.result }}');
 
             // tags already exists => stop
             if (found) {
@@ -51,30 +63,30 @@ jobs:
 
       - name: Set up Go 1.x
         uses: actions/setup-go@v2
-        if: ${{steps.nanopb-check.outputs.result == 'true'}}
+        if: ${{steps.check.outputs.result == 'true'}}
         with:
           go-version: '1.18.3'
         id: go
 
       - name: Checkout
-        if: ${{steps.nanopb-check.outputs.result == 'true'}}
+        if: ${{steps.check.outputs.result == 'true'}}
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.PAT }}
 
       - name: Generate Dockerfile
-        if: ${{steps.nanopb-check.outputs.result == 'true'}}
-        run: go run builder/main.go ${{steps.nanopb-version.outputs.result}} protoc-gen-nanopb/Dockerfile.tpl protoc-gen-nanopb/Dockerfile
+        if: ${{steps.check.outputs.result == 'true'}}
+        run: go run builder/main.go ${{steps.version.outputs.result}} ${{ inputs.plugin_name }}/Dockerfile.tpl ${{ inputs.plugin_name }}/Dockerfile
 
-      - name: Commit new dockerfile
-        if: ${{steps.nanopb-check.outputs.result == 'true'}}
+      - name: Commit new Dockerfile
+        if: ${{steps.check.outputs.result == 'true'}}
         run: |
-          cat protoc-gen-nanopb/Dockerfile
+          cat ${{ inputs.plugin_name }}/Dockerfile
           git config --global user.name 'euskadi31'
           git config --global user.email 'euskadi31@users.noreply.github.com'
           git add .
-          git commit -am "Bumb nanopb v${{steps.nanopb-version.outputs.result}}" || true
-          git tag -a protoc-gen-nanopb/v${{steps.nanopb-version.outputs.result}} -m "Release protoc-gen-nanopb v${{steps.nanopb-version.outputs.result}}"
+          git commit -am "Bumb ${{ inputs.plugin_name }} v${{steps.version.outputs.result}}" || true
+          git tag -a ${{ inputs.plugin_name }}/v${{steps.version.outputs.result}} -m "Release ${{ inputs.plugin_name }} v${{steps.version.outputs.result}}"
           git push
           git push --tags
 
