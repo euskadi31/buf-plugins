@@ -49,6 +49,9 @@ jobs:
 
             return true;
 
+      - name: Debug
+        run: echo ${{steps.nanopb-check.outputs.result}}
+
       - name: Set up Go 1.x
         uses: actions/setup-go@v2
         if: steps.nanopb-check.outputs.result
