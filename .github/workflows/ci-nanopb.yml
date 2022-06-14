@@ -10,6 +10,11 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - name: Extract tag name
+        shell: bash
+        run: echo "##[set-output name=name;]$(echo ${GITHUB_REF#refs/tags/protoc-gen-nanopb/v})"
+        id: tag
+          
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
@@ -25,4 +30,4 @@ jobs:
         with:
           context: protoc-gen-nanopb
           push: true
-          tags: plugins.buf.build/euskadi31/protoc-gen-nanopb:${GITHUB_REF/refs\/tags\/protoc-gen-nanopb\/v/}-1
+          tags: plugins.buf.build/euskadi31/protoc-gen-nanopb:${{ steps.tag.outputs.name }}-1
