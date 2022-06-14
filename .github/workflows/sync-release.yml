@@ -74,7 +74,7 @@ jobs:
           git config --global user.name 'euskadi31'
           git config --global user.email 'euskadi31@users.noreply.github.com'
           git add .
-          git commit -am "Bumb nanopb v${{steps.nanopb-version.outputs.result}}"
+          git commit -am "Bumb nanopb v${{steps.nanopb-version.outputs.result}}" || true
           git tag -a protoc-gen-nanopb/v${{steps.nanopb-version.outputs.result}} -m "Release protoc-gen-nanopb v${{steps.nanopb-version.outputs.result}}"
           git push
           git push --tags
