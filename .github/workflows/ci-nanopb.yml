@@ -25,4 +25,4 @@ jobs:
         with:
           context: protoc-gen-nanopb
           push: true
-          tags: plugins.buf.build/euskadi31/protoc-gen-nanopb:${GITHUB_REF/refs\/tags\/protoc-gen-nanopb\/v/}
+          tags: plugins.buf.build/euskadi31/protoc-gen-nanopb:${GITHUB_REF/refs\/tags\/protoc-gen-nanopb\/v/}-1

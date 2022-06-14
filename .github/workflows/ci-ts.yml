@@ -25,4 +25,4 @@ jobs:
         with:
           context: protoc-gen-ts
           push: true
-          tags: plugins.buf.build/euskadi31/protoc-gen-ts:${GITHUB_REF/refs\/tags\/protoc-gen-ts\/v/}
+          tags: plugins.buf.build/euskadi31/protoc-gen-ts:${GITHUB_REF/refs\/tags\/protoc-gen-ts\/v/}-1
