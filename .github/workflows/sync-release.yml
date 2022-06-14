@@ -54,21 +54,21 @@ jobs:
 
       - name: Set up Go 1.x
         uses: actions/setup-go@v2
-        if: ${{steps.nanopb-check.outputs.result == true}}
+        if: ${{steps.nanopb-check.outputs.result == 'true'}}
         with:
           go-version: '1.18.3'
         id: go
 
       - name: Checkout
-        if: ${{steps.nanopb-check.outputs.result == true}}
+        if: ${{steps.nanopb-check.outputs.result == 'true'}}
         uses: actions/checkout@v2
 
       - name: Generate Dockerfile
-        if: ${{steps.nanopb-check.outputs.result == true}}
+        if: ${{steps.nanopb-check.outputs.result == 'true'}}
         run: go run builder/main.go ${{steps.nanopb-version.outputs.result}} protoc-gen-nanopb/Dockerfile.tpl protoc-gen-nanopb/Dockerfile
 
       - name: Commit new dockerfile
-        if: ${{steps.nanopb-check.outputs.result == true}}
+        if: ${{steps.nanopb-check.outputs.result == 'true'}}
         run: |
           cat protoc-gen-nanopb/Dockerfile
           git config --global user.name 'euskadi31'
