@@ -33,16 +33,6 @@ jobs:
     secrets:
       PAT: ${{ secrets.PAT }}
 
-  protoc-gen-es:
-    name: es
-    uses: ./.github/workflows/sync-release.yml
-    with:
-      plugin_name: protoc-gen-es
-      owner_name: bufbuild
-      repo_name: protobuf-es
-    secrets:
-      PAT: ${{ secrets.PAT }}
-
   protoc-gen-validate:
     name: validate
     uses: ./.github/workflows/sync-release.yml
