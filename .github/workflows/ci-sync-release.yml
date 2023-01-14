@@ -33,6 +33,16 @@ jobs:
     secrets:
       PAT: ${{ secrets.PAT }}
 
+  protoc-gen-ng:
+    name: ng
+    uses: ./.github/workflows/sync-release.yml
+    with:
+      plugin_name: protoc-gen-ng
+      owner_name: ngx-grpc
+      repo_name: ngx-grpc
+    secrets:
+      PAT: ${{ secrets.PAT }}
+
   protoc-gen-validate:
     name: validate
     uses: ./.github/workflows/sync-release.yml
